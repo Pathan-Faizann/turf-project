@@ -26,24 +26,13 @@ function AddTurf() {
 
   return (
     // h-screen aur overflow-hidden se scroll band ho jayega
-    <div className="h-screen w-full bg-[#020617] flex flex-col justify-center items-center p-4 md:p-8 overflow-hidden relative">
+    <div className="h-full w-full bg-[#020617] flex flex-col justify-center items-center p-4 md:p-8 overflow-hidden relative">
       
       {/* PRE-RENDERED AMBIENT LIGHTS */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 blur-[150px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/10 blur-[150px] rounded-full pointer-events-none" />
 
-      {/* TOP NAVIGATION OVERLAY */}
-      <div className="absolute top-8 left-8">
-        <button 
-          onClick={() => navigate(-1)}
-          className="group flex items-center gap-3 text-gray-500 hover:text-white transition-all duration-300"
-        >
-          <div className="p-2 rounded-full bg-white/5 border border-white/10 group-hover:border-white/20">
-            <ArrowLeft size={18} />
-          </div>
-          <span className="text-[10px] font-black uppercase tracking-[0.3em]">Exit Editor</span>
-        </button>
-      </div>
+      
 
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}

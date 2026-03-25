@@ -1,15 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import API from "../services/api";
 import { toast } from "react-toastify";
+import { AuthContext } from "../context/AuthContext";
 
 function TurfDetails() {
   const { id } = useParams();
+  const { user } = useContext(AuthContext);
 
   const [turf, setTurf] = useState(null);
   const [date, setDate] = useState("");
   const [bookedSlots, setBookedSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState("");
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-[#020617] text-white flex items-center justify-center">
+        <h1 className="text-2xl font-bold">Login First Please</h1>
+      </div>
+    );
+  }
 
   // fetch turf
   useEffect(() => {
@@ -25,6 +35,10 @@ function TurfDetails() {
   }, [date, id]);
 
   const handleBooking = async () => {
+    if (!user) {
+      toast.error("Login first please");
+      return;
+    }
     if (!selectedSlot || !date) {
       return toast.error("Select date & slot");
     }

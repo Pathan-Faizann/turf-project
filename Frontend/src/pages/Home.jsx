@@ -27,14 +27,14 @@ function Home() {
       </div>
 
       {/* HERO SECTION */}
-      <section className="relative h-[85vh] flex flex-col justify-center items-center text-center px-4 md:px-6">
+      <section className="relative h-[95vh] pt-2 flex flex-col justify-center items-center text-center px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-6 tracking-tight">
-            Find & Book <span className="bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">Turfs</span> Near You ⚽
+            Find & Book <span className="bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">Turfs</span> Near You 
           </h1>
           <p className="text-gray-400 text-lg md:text-xl mb-10 max-w-2xl mx-auto">
             Experience the next generation of sports booking. Instant slots, 

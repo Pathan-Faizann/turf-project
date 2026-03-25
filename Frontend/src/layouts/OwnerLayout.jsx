@@ -6,7 +6,7 @@ function OwnerLayout() {
   const { logout } = useContext(AuthContext);
 
   return (
-    <div className="flex min-h-screen bg-[#020617] text-white">
+    <div className="flex h-screen bg-[#020617] text-white overflow-hidden">
 
       {/* SIDEBAR */}
       <div className="w-64 bg-white/5 backdrop-blur-xl border-r border-white/10 p-6">
@@ -23,10 +23,10 @@ function OwnerLayout() {
       </div>
 
       {/* MAIN */}
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col">
         
         {/* TOPBAR */}
-        <div className="sticky top-0 bg-white/5 backdrop-blur-lg border-b border-white/10 px-6 py-4 flex justify-between">
+        <div className="bg-white/5 backdrop-blur-lg border-b border-white/10 px-6 py-4 flex justify-between">
           <h1 className="font-bold">Owner Dashboard</h1>
           <button onClick={logout} className="bg-red-500 px-3 py-1 rounded">
             Logout
@@ -34,7 +34,7 @@ function OwnerLayout() {
         </div>
 
         {/* PAGE */}
-        <div className="p-6">
+        <div className="flex-1 overflow-auto">
           <Outlet />
         </div>
       </div>
