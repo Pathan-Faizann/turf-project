@@ -4,6 +4,7 @@ import API from "../services/api";
 import GlassCard from "../components/GlassCard";
 import { motion } from "framer-motion";
 import Reviews from "./Reviews";
+import AboutUs from "./AboutUs";
 
 function Home() {
   const navigate = useNavigate();
@@ -113,6 +114,9 @@ function Home() {
       {/* REVIEWS SECTION */}
       <div className="bg-white/2 backdrop-blur-sm">
         <Reviews />
+      </div>
+      <div id="about-section" className="bg-white/2 backdrop-blur-sm scroll-mt-20">
+        <AboutUs/>
       </div>
 
       {/* FOOTER SPACE */}

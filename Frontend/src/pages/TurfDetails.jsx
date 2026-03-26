@@ -113,7 +113,7 @@ function TurfDetails() {
                </div>
                <div className="bg-white/5 border border-white/5 p-5 rounded-[2rem] text-center">
                   <span className="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1">Duration</span>
-                  <span className="text-xl font-black text-blue-400">60 Min</span>
+                  <span className="text-xl font-black text-blue-400">2 hrs</span>
                </div>
             </div>
           </div>

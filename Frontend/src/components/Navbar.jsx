@@ -23,11 +23,22 @@ function Navbar() {
 
   const isActive = (path) => location.pathname === path;
 
+  // Handle About link - scroll on home, navigate otherwise
+  const handleAboutClick = (e) => {
+    if (location.pathname === "/") {
+      e.preventDefault();
+      const aboutSection = document.getElementById("about-section");
+      if (aboutSection) {
+        aboutSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  };
+
   const navLinks = [
     { name: "HOME", path: "/", icon: <Home size={20} /> },
-    { name: "EXPLORE", path: "/explore", icon: <Compass size={20} /> },
+    { name: "ALL TURFS", path: "/explore", icon: <Compass size={20} /> },
     { name: "MY BOOKINGS", path: "/my-bookings", icon: <Calendar size={20} /> },
-    { name: "ABOUT", path: "/about", icon: <Info size={20} /> },
+    
   ];
 
   return (
@@ -59,6 +70,7 @@ function Navbar() {
                 <Link
                   key={link.name}
                   to={link.path}
+                  onClick={link.isAbout ? handleAboutClick : undefined}
                   className={`relative px-6 py-2 text-[11px] font-black tracking-widest transition-all duration-300 ${
                     isActive(link.path) ? "text-white" : "text-gray-400 hover:text-blue-400"
                   }`}
@@ -144,6 +156,7 @@ function Navbar() {
                 <Link
                   key={link.name}
                   to={link.path}
+                  onClick={link.isAbout ? handleAboutClick : undefined}
                   className={`flex items-center gap-4 p-5 rounded-[1.5rem] transition-all ${
                     isActive(link.path) 
                     ? "bg-blue-600 text-white shadow-xl shadow-blue-600/20" 

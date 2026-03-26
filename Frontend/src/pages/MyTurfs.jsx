@@ -14,7 +14,7 @@ function MyTurfs() {
 
   // Fetch only Owner's Turfs
   useEffect(() => {
-    API.get("/turfs") // Backend logic ensure kare ki ye sirf owner ke turfs laye
+    API.get("/turfs/owner") // owner-specific listing endpoint
       .then((res) => {
         setTurfs(res.data);
         setLoading(false);
@@ -25,13 +25,13 @@ function MyTurfs() {
   // DELETE HANDLER
  const handleDelete = async (id) => {
     // Agar id ki value me ':' pehle se hai toh use trim karo
-    const cleanId = id.startsWith(':') ? id.slice(1) : id; 
+    const cleanId = id.startsWith(":") ? id.slice(1) : id;
 
     if (window.confirm("Are you sure?")) {
       try {
         // Dhyaan de: Yahan koi colon (:) nahi hona chahiye path me
-        await API.delete(`/turfs/${cleanId}`); 
-        setTurfs((prev) => prev.filter((t) => t._id !== id));
+        await API.delete(`/turfs/${cleanId}`);
+        setTurfs((prev) => prev.filter((t) => t._id !== cleanId));
       } catch (err) {
         console.log(err);
         alert(err.response?.data?.message || "Failed to delete");
