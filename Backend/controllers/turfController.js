@@ -35,6 +35,21 @@ export const getTurfs = async (req, res) => {
   }
 };
 
+// 🧑‍🌾 Get Owner's Own Turfs (for /owner/turfs)
+export const getOwnerTurfs = async (req, res) => {
+  try {
+    if (!req.user || !req.user._id) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+
+    const ownerId = req.user._id;
+    const turfs = await Turf.find({ owner: ownerId }).populate("owner", "name email");
+    res.json(turfs);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // 🔍 Get Single Turf
 export const getTurfById = async (req, res) => {
   try {
