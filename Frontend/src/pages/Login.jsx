@@ -43,10 +43,10 @@ function Login() {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-[420px] z-10"
+        className="w-full max-w-[620px] z-10"
       >
         {/* CARD CONTAINER */}
-        <div className="bg-[#0f172a]/40 backdrop-blur-3xl border border-white/10 p-8 md:p-10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.4)] relative overflow-hidden">
+        <div className="bg-[#0f172a]/40 backdrop-blur-3xl border border-white/10 p-8 md:p-10  rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.4)] relative overflow-hidden">
           
           {/* TOP LOGO/ICON */}
           <div className="text-center mb-8">

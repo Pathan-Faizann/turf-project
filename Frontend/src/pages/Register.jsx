@@ -34,7 +34,7 @@ function Register() {
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="w-full max-w-[450px] z-10"
+        className="w-full max-w-[650px] z-10"
       >
         <div className="bg-[#0f172a]/40 backdrop-blur-3xl border border-white/10 p-8 md:p-10 rounded-[2.5rem] shadow-2xl relative">
           

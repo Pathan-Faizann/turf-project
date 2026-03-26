@@ -1,14 +1,33 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { LogOut, Edit, Calendar, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Profile() {
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   if (!user) return <div className="h-screen flex items-center justify-center text-gray-500">Loading...</div>;
 
+  const handleLogout = () => {
+    logout();
+    toast.success("Logged out successfully! 👋");
+    navigate("/");
+  };
+
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+  };
+
+  const handleCancelLogout = () => {
+    setShowLogoutModal(false);
+  };
+
   return (
-    <div className="min-h-[90vh] flex items-center justify-center px-6 relative overflow-hidden">
+    <div className="min-h-[90vh] flex pt-20  items-center justify-center px-6 relative overflow-hidden">
       
       {/* DECORATIVE BACKGROUND GLOW */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-600/20 blur-[100px] rounded-full" />
@@ -17,7 +36,7 @@ function Profile() {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="relative z-10 w-full max-w-md"
+        className="relative z-10 w-full ps-10 max-w-md"
       >
         {/* PROFILE CARD */}
         <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-8 md:p-10 shadow-2xl overflow-hidden">
@@ -57,13 +76,29 @@ function Profile() {
           </div>
 
           {/* ACTION BUTTONS */}
-          <div className="mt-10 grid grid-cols-2 gap-4">
-            <button className="py-3 rounded-2xl bg-white/5 border border-white/10 text-sm font-bold hover:bg-white/10 transition-all active:scale-95">
-              Edit Profile
-            </button>
-            <button className="py-3 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 text-sm font-bold shadow-lg shadow-blue-600/20 hover:shadow-blue-600/40 transition-all active:scale-95">
-              My Bookings
-            </button>
+          <div className="mt-10 space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <button className="py-3 rounded-2xl bg-white/5 border border-white/10 text-sm font-bold hover:bg-white/10 transition-all active:scale-95">
+                Edit Profile
+              </button>
+              <button
+                onClick={() => navigate("/my-bookings")}
+                className="py-3 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 text-sm font-bold shadow-lg shadow-blue-600/20 hover:shadow-blue-600/40 transition-all active:scale-95"
+              >
+                My Bookings
+              </button>
+            </div>
+
+            {/* LOGOUT BUTTON */}
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleLogoutClick}
+              className="w-full py-3 rounded-2xl bg-gradient-to-r from-red-600 to-red-500 text-sm font-bold shadow-lg shadow-red-600/20 hover:shadow-red-600/40 transition-all flex items-center justify-center gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              Logout Account
+            </motion.button>
           </div>
         </div>
 
@@ -72,6 +107,53 @@ function Profile() {
           Member since March 2026 • ArenaX Premium
         </p>
       </motion.div>
+
+      {/* LOGOUT CONFIRMATION MODAL */}
+      <AnimatePresence>
+        {showLogoutModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4"
+            onClick={handleCancelLogout}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-[#0f172a] border border-white/10 rounded-[2rem] p-6 sm:p-8 max-w-sm w-full shadow-2xl"
+            >
+              <div className="text-center">
+                <div className="inline-flex p-4 bg-red-500/10 rounded-full mb-4">
+                  <LogOut className="w-8 h-8 text-red-500" />
+                </div>
+
+                <h3 className="text-xl font-bold text-white mb-2">Confirm Logout</h3>
+                <p className="text-gray-400 text-sm mb-6">
+                  Are you sure you want to logout from your ArenaX account?
+                </p>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleCancelLogout}
+                    className="flex-1 py-3 px-4 rounded-xl bg-white/5 border border-white/10 text-sm font-bold text-gray-300 hover:bg-white/10 transition-all"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-red-600 to-red-500 text-sm font-bold text-white shadow-lg shadow-red-600/20 hover:shadow-red-600/40 transition-all"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
