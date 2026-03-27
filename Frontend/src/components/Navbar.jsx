@@ -90,11 +90,11 @@ function Navbar() {
             {/* ACTION AREA */}
             <div className="flex items-center gap-3">
               {!user ? (
-                <div className="flex items-center gap-4">
-                  <Link to="/login" className="hidden sm:block text-[11px] font-black text-gray-400 hover:text-white transition-all tracking-widest">
+                <div className="flex items-center gap-2">
+                  <Link to="/login" className="text-[10px] md:text-[11px] font-black text-gray-300 hover:text-white transition-all tracking-widest border border-white/20 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10">
                     LOGIN
                   </Link>
-                  <Link to="/register" className="bg-blue-600 hover:bg-blue-500 px-5 md:px-7 py-2.5 md:py-3 rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all active:scale-95">
+                  <Link to="/register" className="bg-blue-600 hover:bg-blue-500 px-4 md:px-7 py-2 md:py-3 rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all active:scale-95">
                     <span className="text-[10px] md:text-[11px] font-black tracking-widest text-white whitespace-nowrap">JOIN NOW</span>
                   </Link>
                 </div>
@@ -167,6 +167,17 @@ function Navbar() {
                   <span className="text-sm font-black tracking-[0.2em] uppercase">{link.name}</span>
                 </Link>
               ))}
+
+              {!user && (
+                <div className="space-y-2">
+                  <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="block w-full text-center p-4 rounded-xl bg-white/10 text-white font-black tracking-widest hover:bg-white/20">
+                    LOGIN
+                  </Link>
+                  <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="block w-full text-center p-4 rounded-xl bg-blue-600 text-white font-black tracking-widest hover:bg-blue-500">
+                    JOIN NOW
+                  </Link>
+                </div>
+              )}
 
               {user?.role === "owner" && (
                 <Link to="/owner" className="flex items-center gap-4 p-5 rounded-[1.5rem] bg-emerald-500/10 text-emerald-400 border border-emerald-500/10">
