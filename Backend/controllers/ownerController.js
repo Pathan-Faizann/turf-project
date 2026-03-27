@@ -37,3 +37,27 @@ export const getOwnerStats = async (req, res) => {
     res.status(500).json({ message: "Error fetching stats" });
   }
 };
+
+// Get Owner's Turfs
+export const getOwnerTurfs = async (req, res) => {
+  try {
+    console.log("REQ.USER:", req.user);
+
+    if (!req.user || !req.user._id) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+
+    const ownerId = req.user._id;
+    console.log("Fetching turfs for owner:", ownerId);
+
+    const turfs = await Turf.find({ owner: ownerId })
+      .populate("owner", "name email")
+      .sort({ createdAt: -1 });
+
+    console.log("Found turfs:", turfs.length);
+    res.json(turfs);
+  } catch (err) {
+    console.error("Error fetching owner turfs:", err);
+    res.status(500).json({ message: "Error fetching turfs" });
+  }
+};

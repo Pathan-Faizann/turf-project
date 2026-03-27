@@ -5,8 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, IndianRupee, LayoutGrid, Settings2, Eye, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-
-
 function MyTurfs() {
   const [turfs, setTurfs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,7 +14,7 @@ function MyTurfs() {
   // Fetch only Owner's Turfs
   useEffect(() => {
     console.log("Fetching owner's turfs...");
-    API.get("/turfs/owner-t")
+    API.get("/owner/my-turfs")
       .then((res) => {
         console.log("Turfs received:", res.data);
         setTurfs(res.data);
@@ -60,12 +58,10 @@ function MyTurfs() {
             Manage your listed arenas and booking configurations.
           </p>
         </div>
-        
-       
 
-<button onClick={() => navigate("/owner/add")}>
-  + Add New Turf
-</button>
+        <button onClick={() => navigate("/owner/add")} className="bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded-xl font-bold text-white transition-all">
+          + Add New Turf
+        </button>
       </div>
 
       {/* GRID SECTION */}
@@ -91,13 +87,13 @@ function MyTurfs() {
                   layout
                 >
                   <GlassCard className="relative group overflow-hidden border border-white/5 hover:border-blue-500/30 transition-all duration-500 h-full">
-                    
+
                     {/* STATUS LABEL & DELETE TOP ACTION */}
                     <div className="absolute top-4 right-4 z-10 flex gap-2">
                       <span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-widest rounded-full border border-emerald-500/20 backdrop-blur-md">
                         Live
                       </span>
-                      <button 
+                      <button
                         onClick={() => handleDelete(turf._id)}
                         className="p-1.5 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white rounded-lg border border-red-500/20 transition-all shadow-lg"
                         title="Delete Turf"
