@@ -8,25 +8,36 @@ export const protect = (req, res, next) => {
   }
 
   if (!token) {
-    return res.status(401).json({ message: "Not authorized" });
+    return res.status(401).json({ message: "Not authorized, no token" });
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; 
-    req.user._id = decoded.id; /// id + role
+
+    console.log("DECODED TOKEN:", decoded); // 🔥 DEBUG
+
+    req.user = {
+      _id: decoded.id,
+      role: decoded.role,
+    };
+
     next();
   } catch (error) {
+    console.error("TOKEN ERROR:", error);
     res.status(401).json({ message: "Token invalid" });
   }
 };
 
-// Role-based access
 export const authorizeRoles = (...roles) => {
   return (req, res, next) => {
+    if (!req.user || !req.user.role) {
+      return res.status(401).json({ message: "Unauthorized - no role" });
+    }
+
     if (!roles.includes(req.user.role)) {
       return res.status(403).json({ message: "Access denied" });
     }
+
     next();
   };
 };
