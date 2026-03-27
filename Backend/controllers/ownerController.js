@@ -4,7 +4,7 @@ import Booking from "../models/Booking.js";
 export const getOwnerStats = async (req, res) => {
   try {
     // 1. Check karein ki middleware se req.user._id mil raha hai
-    const ownerId = req.user._id; 
+    const ownerId = req.user._id;
 
     // Total Turfs (Ensure schema field is 'owner')
     const totalTurfs = await Turf.countDocuments({ owner: ownerId });

@@ -10,16 +10,24 @@ import { useNavigate } from "react-router-dom";
 function MyTurfs() {
   const [turfs, setTurfs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   // Fetch only Owner's Turfs
   useEffect(() => {
-    API.get("/turfs/owner") // owner-specific listing endpoint
+    console.log("Fetching owner's turfs...");
+    API.get("/turfs/owner")
       .then((res) => {
+        console.log("Turfs received:", res.data);
         setTurfs(res.data);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((err) => {
+        console.error("Error fetching turfs:", err);
+        console.error("Error response:", err.response);
+        setError(err.response?.data?.message || "Failed to load turfs");
+        setLoading(false);
+      });
   }, []);
 
   // DELETE HANDLER
@@ -65,6 +73,11 @@ function MyTurfs() {
         {loading ? (
           <div className="flex justify-center py-20">
             <div className="w-10 h-10 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin"></div>
+          </div>
+        ) : error ? (
+          <div className="text-center py-20 bg-red-500/10 rounded-[2rem] border border-red-500/20 col-span-full">
+            <p className="text-red-400 font-medium">{error}</p>
+            <p className="text-gray-500 text-sm mt-2">Please try refreshing the page or contact support if the issue persists.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

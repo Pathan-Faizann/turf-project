@@ -20,12 +20,11 @@ function Home() {
   const bestTurfs = turfs.slice(0, 3);
 
   return (
+    <>
+
     <div className="min-h-screen bg-[#020617] text-white selection:bg-blue-500/30">
       {/* BACKGROUND DECORATION */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-blue-600/10 blur-[120px] rounded-full" />
-        <div className="absolute top-[20%] -right-[10%] w-[30%] h-[30%] bg-emerald-500/5 blur-[100px] rounded-full" />
-      </div>
+     
 
       {/* HERO SECTION */}
       <section className="relative h-[95vh] pt-2 flex flex-col justify-center items-center text-center px-4 md:px-6">
@@ -124,6 +123,7 @@ function Home() {
         © 2026 TurfBooker Premium. All rights reserved.
       </footer>
     </div>
+    </>
   );
 }
 

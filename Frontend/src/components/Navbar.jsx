@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
-import { LayoutDashboard, Calendar, User, Menu, X, Home, Compass, Info } from "lucide-react";
+import { LayoutDashboard, Calendar, Menu, X, Home, Compass } from "lucide-react";
 
 function Navbar() {
   const { user } = useContext(AuthContext);
@@ -16,61 +16,49 @@ function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close menus on route change
+  // Route change hote hi menu close ho jaye
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location]);
 
   const isActive = (path) => location.pathname === path;
 
-  // Handle About link - scroll on home, navigate otherwise
-  const handleAboutClick = (e) => {
-    if (location.pathname === "/") {
-      e.preventDefault();
-      const aboutSection = document.getElementById("about-section");
-      if (aboutSection) {
-        aboutSection.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }
-  };
-
   const navLinks = [
     { name: "HOME", path: "/", icon: <Home size={20} /> },
     { name: "ALL TURFS", path: "/explore", icon: <Compass size={20} /> },
     { name: "MY BOOKINGS", path: "/my-bookings", icon: <Calendar size={20} /> },
-    
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${
-      isScrolled ? "py-3 pt-6" : "py-6"
+    <nav className={`fixed top-0 left-0 w-[330px] md:w-auto right-0 z-[100] transition-all duration-500 ${
+      isScrolled ? "py-2 pt-4" : "py-4 md:py-6"
     }`}>
-      <div className="max-w-6xl mx-auto px-4 sm:px-8">
-        <div className={`relative transition-all duration-500 rounded-2xl border ${
+      <div className="max-w-7xl mx-auto px-6 sm:px-6">
+        <div className={`relative  transition-all duration-500 rounded-2xl border ${
           isScrolled 
             ? "bg-[#020617]/90 backdrop-blur-xl border-white/10 shadow-2xl" 
             : "bg-transparent border-transparent"
         }`}>
           
-          <div className="px-5 py-3 md:px-6 md:py-4 flex justify-between items-center">
+          {/* MAIN BAR CONTAINER */}
+          <div className="px-4  py-3 md:px-6 md:py-4 flex justify-between items-center">
             
-            {/* BRAND LOGO */}
-            <Link to="/" className="flex items-center gap-3 group relative z-10">
-              <div className="relative w-10 h-10 md:w-11 md:h-11 bg-blue-600 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.4)]">
-                <span className="text-white font-black text-xl md:text-2xl italic">A</span>
+            {/* 1. BRAND LOGO (Always Left) */}
+            <Link to="/" className="flex items-center gap-2 md:gap-3 shrink-0 relative z-10">
+              <div className="w-9 h-9 md:w-11 md:h-11 bg-blue-600 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.4)]">
+                <span className="text-white font-black text-lg md:text-2xl italic">A</span>
               </div>
-              <h1 className="text-xl md:text-2xl font-black tracking-tighter text-white">
+              <h1 className="text-lg md:text-2xl font-black tracking-tighter text-white">
                 ARENA<span className="text-blue-500">X</span>
               </h1>
             </Link>
 
-            {/* CENTRAL NAVIGATION (Desktop Only) */}
+            {/* 2. CENTRAL NAV (Desktop Only - lg breakpoint) */}
             <div className="hidden lg:flex items-center bg-white/5 rounded-full px-2 py-1.5 border border-white/5 backdrop-blur-md">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.path}
-                  onClick={link.isAbout ? handleAboutClick : undefined}
                   className={`relative px-6 py-2 text-[11px] font-black tracking-widest transition-all duration-300 ${
                     isActive(link.path) ? "text-white" : "text-gray-400 hover:text-blue-400"
                   }`}
@@ -87,108 +75,125 @@ function Navbar() {
               ))}
             </div>
 
-            {/* ACTION AREA */}
+            {/* 3. ACTION AREA */}
             <div className="flex items-center gap-3">
-              {!user ? (
-                <div className="flex items-center gap-2">
-                  <Link to="/login" className="text-[10px] md:text-[11px] font-black text-gray-300 hover:text-white transition-all tracking-widest border border-white/20 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10">
-                    LOGIN
-                  </Link>
-                  <Link to="/register" className="bg-blue-600 hover:bg-blue-500 px-4 md:px-7 py-2 md:py-3 rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all active:scale-95">
-                    <span className="text-[10px] md:text-[11px] font-black tracking-widest text-white whitespace-nowrap">JOIN NOW</span>
-                  </Link>
-                </div>
-              ) : (
-                <div className="flex items-center gap-3">
-                  {/* Dashboard (Owner) */}
-                  {user.role === "owner" && (
-                    <Link to="/owner" className="hidden md:flex p-2.5 bg-white/5 rounded-xl text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500 hover:text-white transition-all">
-                      <LayoutDashboard size={20} />
+              {/* DESKTOP VIEW: Login/Profile (Hidden on screens smaller than lg) */}
+              <div className="hidden lg:flex items-center gap-3">
+                {!user ? (
+                  <>
+                    <Link to="/login" className="text-[11px] font-black text-gray-300 hover:text-white transition-all tracking-widest border border-white/20 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10">
+                      LOGIN
                     </Link>
-                  )}
+                    <Link to="/register" className="bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all">
+                      <span className="text-[11px] font-black tracking-widest text-white whitespace-nowrap">JOIN NOW</span>
+                    </Link>
+                  </>
+                ) : (
+                  <div className="flex items-center gap-3">
+                    {user.role === "owner" && (
+                      <Link to="/owner" className="p-2.5 bg-white/5 rounded-xl text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500 hover:text-white transition-all">
+                        <LayoutDashboard size={20} />
+                      </Link>
+                    )}
+                    <Link to="/profile" className="flex items-center gap-3 p-1.5 pr-4 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-all group">
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center text-sm font-black text-white">
+                        {user.name[0].toUpperCase()}
+                      </div>
+                      <span className="text-xs font-black text-white uppercase tracking-widest">{user.name.split(' ')[0]}</span>
+                    </Link>
+                  </div>
+                )}
+              </div>
 
-                  {/* USER PROFILE LINK */}
-                  <Link to="/profile" className="flex items-center gap-3 p-1.5 pr-4 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-all group">
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center text-sm font-black text-white shadow-lg">
-                      {user.name[0].toUpperCase()}
-                    </div>
-                    <span className="text-xs font-black text-white hidden md:block uppercase tracking-widest">{user.name.split(' ')[0]}</span>
-                  </Link>
-                </div>
-              )}
-
-              {/* MOBILE HAMBURGER BUTTON */}
+              {/* MOBILE MENU BUTTON (Visible only on screens smaller than lg) */}
               <button 
                 onClick={() => setMobileMenuOpen(true)} 
-                className="lg:hidden p-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-300 hover:text-white transition-all"
+                className="lg:hidden p-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-300 hover:text-white active:scale-95 transition-all"
               >
                 <Menu size={24} />
               </button>
             </div>
+
           </div>
         </div>
       </div>
 
-      {/* MOBILE DRAWER (Full Page Style) */}
+      {/* MOBILE DRAWER (SIDEBAR) */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-[#020617] z-[150] lg:hidden flex flex-col"
-          >
-            {/* Header in Mobile Menu */}
-            <div className="p-6 flex justify-between items-center border-b border-white/5">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center font-black text-white italic">A</div>
-                <span className="font-black text-white tracking-widest uppercase">Menu</span>
-              </div>
-              <button onClick={() => setMobileMenuOpen(false)} className="p-3 bg-white/5 rounded-2xl text-gray-400">
-                <X size={24} />
-              </button>
-            </div>
+          <>
+            {/* Backdrop for extra polish */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[140] lg:hidden"
+            />
 
-            {/* Links Section */}
-            <div className="flex-1 p-6 space-y-3 overflow-y-auto">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  onClick={link.isAbout ? handleAboutClick : undefined}
-                  className={`flex items-center gap-4 p-5 rounded-[1.5rem] transition-all ${
-                    isActive(link.path) 
-                    ? "bg-blue-600 text-white shadow-xl shadow-blue-600/20" 
-                    : "bg-white/5 text-gray-400 border border-white/5"
-                  }`}
-                >
-                  {link.icon}
-                  <span className="text-sm font-black tracking-[0.2em] uppercase">{link.name}</span>
-                </Link>
-              ))}
-
-              {!user && (
-                <div className="space-y-2">
-                  <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="block w-full text-center p-4 rounded-xl bg-white/10 text-white font-black tracking-widest hover:bg-white/20">
-                    LOGIN
-                  </Link>
-                  <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="block w-full text-center p-4 rounded-xl bg-blue-600 text-white font-black tracking-widest hover:bg-blue-500">
-                    JOIN NOW
-                  </Link>
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 bottom-0 w-[280px] sm:w-[320px] bg-[#020617] border-l border-white/10 z-[150] lg:hidden flex flex-col shadow-2xl"
+            >
+              {/* Sidebar Header */}
+              <div className="p-6 flex justify-between items-center border-b border-white/5">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-black text-white italic text-sm">A</div>
+                  <span className="font-black text-white tracking-widest uppercase text-sm">Menu</span>
                 </div>
-              )}
+                <button onClick={() => setMobileMenuOpen(false)} className="p-2 bg-white/5 rounded-xl text-gray-400 hover:text-white">
+                  <X size={20} />
+                </button>
+              </div>
 
-              {user?.role === "owner" && (
-                <Link to="/owner" className="flex items-center gap-4 p-5 rounded-[1.5rem] bg-emerald-500/10 text-emerald-400 border border-emerald-500/10">
-                  <LayoutDashboard size={20} />
-                  <span className="text-sm font-black tracking-[0.2em] uppercase">OWNER PANEL</span>
-                </Link>
-              )}
-            </div>
+              {/* Sidebar Links */}
+              <div className="flex-1 p-6 space-y-3 overflow-y-auto">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    className={`flex items-center gap-4 p-4 rounded-2xl transition-all ${
+                      isActive(link.path) 
+                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20" 
+                      : "bg-white/5 text-gray-400 border border-white/5"
+                    }`}
+                  >
+                    {link.icon}
+                    <span className="text-xs font-black tracking-widest uppercase">{link.name}</span>
+                  </Link>
+                ))}
 
-            {/* Bottom Actions for Mobile - Removed logout, users can logout from profile */}
-          </motion.div>
+                <div className="my-6 border-t border-white/5 pt-6 space-y-3">
+                  {!user ? (
+                    <>
+                      <Link to="/login" className="block w-full text-center p-4 rounded-2xl bg-white/5 text-white font-black tracking-widest border border-white/10 text-xs">
+                        LOGIN
+                      </Link>
+                      <Link to="/register" className="block w-full text-center p-4 rounded-2xl bg-blue-600 text-white font-black tracking-widest shadow-lg shadow-blue-600/20 text-xs">
+                        JOIN NOW
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/profile" className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 text-white border border-white/10">
+                        <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold">{user.name[0]}</div>
+                        <span className="text-xs font-black tracking-widest uppercase">MY PROFILE</span>
+                      </Link>
+                      {user.role === "owner" && (
+                        <Link to="/owner" className="flex items-center gap-4 p-4 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/10">
+                          <LayoutDashboard size={20} />
+                          <span className="text-xs font-black tracking-widest uppercase">OWNER PANEL</span>
+                        </Link>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </nav>
