@@ -7,8 +7,7 @@ import turfRoutes from "./routes/turfRoutes.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
 import ownerRoutes from "./routes/ownerRoutes.js";
 
-;
-
+// Force redeploy trigger
 dotenv.config();
 connectDB();
 
