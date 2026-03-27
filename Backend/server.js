@@ -6,6 +6,7 @@ import authRoutes from "./routes/authRoutes.js";
 import turfRoutes from "./routes/turfRoutes.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
 import ownerRoutes from "./routes/ownerRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 
 // Force redeploy trigger
 dotenv.config();
@@ -21,7 +22,8 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/turfs", turfRoutes);
 app.use("/api/bookings", bookingRoutes);
-app.use("/api/owner", ownerRoutes)
+app.use("/api/owner", ownerRoutes);
+app.use("/api/contacts", contactRoutes);
 
 app.get("/", (req, res) => {
   res.send("API running...");

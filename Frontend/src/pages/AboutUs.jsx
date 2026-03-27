@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Users, ShieldCheck, Zap, Target, Award, Globe } from "lucide-react";
+import img from "../assets/turf.webp"
 
 function AboutUs() {
   const stats = [
@@ -90,7 +91,7 @@ function AboutUs() {
             <div className="aspect-video bg-gradient-to-br from-blue-600 to-emerald-500 rounded-[3rem] overflow-hidden shadow-2xl relative group">
               <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
               <img 
-                src="https://www.shutterstock.com/search/cricket-turf" 
+                src={img}
                 alt="Turf" 
                 className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
               />

@@ -30,7 +30,7 @@ function TurfBookings() {
         </div>
         <h1 className="text-2xl font-black uppercase tracking-widest">Session Expired</h1>
         <p className="text-gray-500 mt-2 text-sm">Please login to view your arena bookings.</p>
-        <button onClick={() => navigate("/login")} className="mt-6 bg-blue-600 px-8 py-3 rounded-xl font-black text-xs uppercase tracking-widest text-white shadow-lg">Login Now</button>
+        <button onClick={() => navigate("/login")} className="mt-6 w-full max-w-[280px] py-4 rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 transition-all shadow-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white shadow-blue-600/20 hover:-translate-y-[2px] active:scale-[0.98]">Login Now</button>
       </div>
     );
   }
@@ -70,7 +70,7 @@ function TurfBookings() {
             </div>
             <h3 className="text-xl font-black uppercase tracking-widest text-gray-300">No Arena Reserved</h3>
             <p className="text-gray-500 mt-2 text-xs font-bold uppercase tracking-widest">Time to get back on the field!</p>
-            <Link to="/explore" className="mt-8 inline-flex items-center gap-3 bg-white text-black px-8 py-4 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-xl shadow-blue-600/10">
+            <Link to="/explore" className="mt-8 inline-flex items-center justify-center gap-3 py-4 px-8 rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] transition-all shadow-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white shadow-blue-600/20 hover:-translate-y-[2px] active:scale-[0.98]">
               Explore Turfs <ArrowLeft size={16} className="rotate-180" />
             </Link>
           </motion.div>

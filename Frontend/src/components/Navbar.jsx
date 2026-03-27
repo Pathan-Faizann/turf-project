@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
-import { LayoutDashboard, Calendar, Menu, X, Home, Compass } from "lucide-react";
+import { Calendar, Menu, X, Home, Compass, Phone } from "lucide-react";
 
 function Navbar() {
   const { user } = useContext(AuthContext);
@@ -27,10 +27,11 @@ function Navbar() {
     { name: "HOME", path: "/", icon: <Home size={20} /> },
     { name: "ALL TURFS", path: "/explore", icon: <Compass size={20} /> },
     { name: "MY BOOKINGS", path: "/my-bookings", icon: <Calendar size={20} /> },
+    { name: "CONTACT US", path: "/contact-us", icon: <Phone size={20} /> },
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 w-[330px] md:w-auto right-0 z-[100] transition-all duration-500 ${
+    <nav className={`fixed top-0 left-0 w-[400px] md:w-auto right-0 z-[100] transition-all duration-500 ${
       isScrolled ? "py-2 pt-4" : "py-4 md:py-6"
     }`}>
       <div className="max-w-7xl mx-auto px-6 sm:px-6">
@@ -81,20 +82,15 @@ function Navbar() {
               <div className="hidden lg:flex items-center gap-3">
                 {!user ? (
                   <>
-                    <Link to="/login" className="text-[11px] font-black text-gray-300 hover:text-white transition-all tracking-widest border border-white/20 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10">
+                    <Link to="/login" className="text-[11px] font-black text-gray-300 px-7 py-3.5 hover:text-white transition-all tracking-widest border border-white/20 rounded-2xl bg-white/5 hover:bg-white/10">
                       LOGIN
                     </Link>
-                    <Link to="/register" className="bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all">
-                      <span className="text-[11px] font-black tracking-widest text-white whitespace-nowrap">JOIN NOW</span>
+                    <Link to="/register" className="bg-gradient-to-r from-blue-600 to-blue-400 text-white shadow-xl shadow-blue-600/20 px-8 py-3.5 rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] flex items-center justify-center gap-2 transition-all hover:-translate-y-[2px] active:scale-[0.98] whitespace-nowrap">
+                      JOIN NOW
                     </Link>
                   </>
                 ) : (
                   <div className="flex items-center gap-3">
-                    {user.role === "owner" && (
-                      <Link to="/owner" className="p-2.5 bg-white/5 rounded-xl text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500 hover:text-white transition-all">
-                        <LayoutDashboard size={20} />
-                      </Link>
-                    )}
                     <Link to="/profile" className="flex items-center gap-3 p-1.5 pr-4 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-all group">
                       <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center text-sm font-black text-white">
                         {user.name[0].toUpperCase()}
@@ -172,7 +168,7 @@ function Navbar() {
                       <Link to="/login" className="block w-full text-center p-4 rounded-2xl bg-white/5 text-white font-black tracking-widest border border-white/10 text-xs">
                         LOGIN
                       </Link>
-                      <Link to="/register" className="block w-full text-center p-4 rounded-2xl bg-blue-600 text-white font-black tracking-widest shadow-lg shadow-blue-600/20 text-xs">
+                      <Link to="/register" className="w-full py-4 rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 transition-all mt-2 shadow-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white shadow-blue-600/20 hover:-translate-y-[2px] active:scale-[0.98]">
                         JOIN NOW
                       </Link>
                     </>
@@ -182,12 +178,6 @@ function Navbar() {
                         <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold">{user.name[0]}</div>
                         <span className="text-xs font-black tracking-widest uppercase">MY PROFILE</span>
                       </Link>
-                      {user.role === "owner" && (
-                        <Link to="/owner" className="flex items-center gap-4 p-4 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/10">
-                          <LayoutDashboard size={20} />
-                          <span className="text-xs font-black tracking-widest uppercase">OWNER PANEL</span>
-                        </Link>
-                      )}
                     </>
                   )}
                 </div>
