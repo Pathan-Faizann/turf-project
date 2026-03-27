@@ -143,7 +143,7 @@ function Home() {
   const bestTurfs = turfs.slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white selection:bg-blue-500/30">
+    <div className="min-h-screen bg-[#020617] text-white selection:bg-blue-500/30 overflow-x-hidden">
       
       {/* HERO SECTION WITH ANIMATED BACKGROUND */}
       <section className="relative h-[95vh] flex flex-col justify-center items-center text-center px-4 md:px-6 overflow-hidden">
