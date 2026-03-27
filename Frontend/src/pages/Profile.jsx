@@ -19,7 +19,7 @@ function Profile() {
   };
 
   return (
-    <div className="min-h-full flex items-start justify-center px-4 sm:px-6 py-8 relative overflow-hidden bg-[#020617]">
+    <div className="min-h-full pt-30 flex items-start justify-center px-4 sm:px-6 py-8 relative overflow-hidden bg-[#020617]">
       
       {/* DECORATIVE BACKGROUND GLOW */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-600/20 blur-[100px] rounded-full pointer-events-none" />

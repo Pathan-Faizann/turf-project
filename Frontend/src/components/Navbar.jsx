@@ -34,7 +34,7 @@ function Navbar() {
     <nav className={`fixed top-0 left-0 w-[400px] md:w-auto right-0 z-[100] transition-all duration-500 ${
       isScrolled ? "py-2 pt-4" : "py-4 md:py-6"
     }`}>
-      <div className="max-w-7xl mx-auto px-6 sm:px-6">
+      <div className="max-w-8xl mx-auto px-6 sm:px-6">
         <div className={`relative  transition-all duration-500 rounded-2xl border ${
           isScrolled 
             ? "bg-[#020617]/90 backdrop-blur-xl border-white/10 shadow-2xl" 
@@ -55,7 +55,7 @@ function Navbar() {
             </Link>
 
             {/* 2. CENTRAL NAV (Desktop Only - lg breakpoint) */}
-            <div className="hidden lg:flex items-center bg-white/5 rounded-full px-2 py-1.5 border border-white/5 backdrop-blur-md">
+            <div className="hidden lg:flex items-center bg-white/5 rounded-full me-7 px-2 py-1.5 border border-white/5 backdrop-blur-md">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
