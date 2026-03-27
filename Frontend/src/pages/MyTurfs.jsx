@@ -16,7 +16,7 @@ function MyTurfs() {
   // Fetch only Owner's Turfs
   useEffect(() => {
     console.log("Fetching owner's turfs...");
-    API.get("/turfs/owner")
+    API.get("/turfs/owner-t")
       .then((res) => {
         console.log("Turfs received:", res.data);
         setTurfs(res.data);
