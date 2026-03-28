@@ -23,6 +23,14 @@ const MyTurfs = lazy(() => import("./pages/MyTurfs"));
 const TurfBookings = lazy(() => import("./pages/TurfBookings"));
 const OwnerBookings = lazy(() => import("./pages/OwnerBookings"));
 import { AuthContext } from "./context/AuthContext";
+const AdminLayout = lazy(() => import("./admin/AdminLayout"));
+const AdminLogin = lazy(() => import("./admin/AdminLogin"));
+const AdminDashboard = lazy(() => import("./admin/AdminDashboard"));
+const AdminUsers = lazy(() => import("./admin/AdminUsers"));
+const AdminTurfs = lazy(() => import("./admin/AdminTurfs"));
+const AdminBookings = lazy(() => import("./admin/AdminBookings"));
+const AdminContacts = lazy(() => import("./admin/AdminContacts"));
+const AdminRoute = lazy(() => import("./admin/AdminRoute"));
 
 function LayoutWrapper() {
   const location = useLocation();
@@ -36,8 +44,8 @@ function LayoutWrapper() {
     }
   }, [user, location.pathname, navigate]);
 
-  // 👉 Navbar hide for owner routes
-  const hideNavbar = location.pathname.startsWith("/owner");
+  // 👉 Navbar hide for owner & admin routes
+  const hideNavbar = location.pathname.startsWith("/owner") || location.pathname.startsWith("/admin");
 
   return (
     <>
@@ -56,6 +64,14 @@ function LayoutWrapper() {
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/turf/:id" element={<TurfDetails />} />
           <Route path="/my-bookings" element={<TurfBookings />} />
+          <Route path="/admin-login-turf" element={<AdminLogin />} />
+          <Route element={<AdminRoute><AdminLayout /></AdminRoute>}>
+            <Route path="/admin-dashboard-turf" element={<AdminDashboard />} />
+            <Route path="/admin-users-turf" element={<AdminUsers />} />
+            <Route path="/admin-turfs-turf" element={<AdminTurfs />} />
+            <Route path="/admin-bookings-turf" element={<AdminBookings />} />
+            <Route path="/admin-contacts-turf" element={<AdminContacts />} />
+          </Route>
           <Route path="*" element={<h1 className="text-white">404 Not Found</h1>} />
 
           {/* OWNER ROUTES */}

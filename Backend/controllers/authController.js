@@ -157,3 +157,54 @@ export const resetPassword = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// ----------------------------------------------------
+// ADMIN AUTHENTICATION (HTTP-ONLY COOKIES)
+// ----------------------------------------------------
+
+export const adminLogin = async (req, res) => {
+  try {
+    const { password } = req.body;
+    
+    // Fallback to "saleha" if env var is missing
+    const validPassword = process.env.ADMIN_PASSWORD || "saleha";
+
+    if (password !== validPassword) {
+      return res.status(401).json({ message: "Invalid Admin Password. Access Denied." });
+    }
+
+    // Sign a specific admin token
+    const token = jwt.sign(
+      { id: "admin_user", role: "admin" },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+
+    // Set HTTP-Only Cookie
+    res.cookie("admin_token", token, {
+      httpOnly: true, // Cannot be accessed by JavaScript (XSS protection)
+      secure: process.env.NODE_ENV === "production", // true in production
+      sameSite: "strict", // CSRF protection
+      maxAge: 24 * 60 * 60 * 1000 // 1 day
+    });
+
+    res.json({ message: "Admin authenticated securely", role: "admin" });
+
+  } catch (error) {
+    console.error("Admin login error:", error);
+    res.status(500).json({ message: "Server error during admin login" });
+  }
+};
+
+export const adminLogout = (req, res) => {
+  res.cookie("admin_token", "", {
+    httpOnly: true,
+    expires: new Date(0) // Expire immediately
+  });
+  res.json({ message: "Admin logged out successfully" });
+};
+
+export const adminCheck = (req, res) => {
+  // If request simply reaches here, the adminAuth middleware approved the cookie
+  res.json({ ok: true, message: "Valid admin session" });
+};

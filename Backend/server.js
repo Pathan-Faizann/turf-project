@@ -1,12 +1,14 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import turfRoutes from "./routes/turfRoutes.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
 import ownerRoutes from "./routes/ownerRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 // Force redeploy trigger
 dotenv.config();
@@ -17,6 +19,7 @@ const app = express();
 
 app.use(cors({ origin: '*' }));
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use("/api/auth", authRoutes);
@@ -24,6 +27,7 @@ app.use("/api/turfs", turfRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/owner", ownerRoutes);
 app.use("/api/contacts", contactRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
   res.send("API running...");
