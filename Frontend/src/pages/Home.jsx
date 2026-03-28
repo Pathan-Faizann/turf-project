@@ -99,7 +99,7 @@ function CricketBackground() {
     function draw() {
       const W = canvas.width, H = canvas.height;
       ctx.clearRect(0, 0, W, H);
-      const pad = 100; // Increased padding for safer edge transitions
+      const pad = 50; // Increased padding for safer edge transitions
 
       objects.forEach((o) => {
         o.x += o.vx;
@@ -126,7 +126,7 @@ function CricketBackground() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-70" />;
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-70 pointer-events-none" />;
 }
 
 // --- MAIN HOME COMPONENT ---
@@ -143,7 +143,7 @@ function Home() {
   const bestTurfs = turfs.slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white selection:bg-blue-500/30 overflow-x-hidden">
+    <div className="min-h-screen bg-[#020617] text-white selection:bg-blue-500/30 overflow-hidden">
       
       {/* HERO SECTION WITH ANIMATED BACKGROUND */}
       <section className="relative h-[95vh] flex flex-col justify-center items-center text-center px-4 md:px-6 overflow-hidden">

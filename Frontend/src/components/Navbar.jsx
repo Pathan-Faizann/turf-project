@@ -31,7 +31,7 @@ function Navbar() {
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 w-[400px] md:w-auto right-0 z-[100] transition-all duration-500 ${
+    <nav className={`fixed top-0 left-0 w-full md:w-auto right-0 z-[100] transition-all duration-500 ${
       isScrolled ? "py-2 pt-4" : "py-4 md:py-6"
     }`}>
       <div className="max-w-8xl mx-auto px-6 sm:px-6">
