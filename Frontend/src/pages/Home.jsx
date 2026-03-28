@@ -12,35 +12,34 @@ function CricketBackground() {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
     let animId;
     let objects = [];
-    const COUNT = 8; // Thoda kam element rakhe hain taaki complex na lage
+    const COUNT = 8; 
 
     const randBetween = (a, b) => a + Math.random() * (b - a);
 
     function resize() {
-      if (!canvas) return;
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
+      if (!canvas || !canvas.parentElement) return;
+      canvas.width = canvas.parentElement.offsetWidth;
+      canvas.height = canvas.parentElement.offsetHeight;
       init();
     }
 
     function init() {
       objects = [];
       for (let i = 0; i < COUNT; i++) {
-        const isBat = i % 2 === 0; // Zyada bats, kam balls
+        const isBat = i % 2 === 0; 
         objects.push({
           type: isBat ? "bat" : "ball",
           x: randBetween(0, canvas.width),
           y: randBetween(0, canvas.height),
-          vx: randBetween(-0.35, 0.35), // Smooth slow movement
+          vx: randBetween(-0.35, 0.35),
           vy: randBetween(-0.35, 0.35),
           angle: randBetween(0, Math.PI * 2),
           rotSpeed: randBetween(-0.008, 0.008),
-          // BADA SIZE FOr BATS
           size: isBat ? randBetween(30, 60) : randBetween(10, 15), 
-          // BADI OPACITY FOr VISIBILITY
           alpha: randBetween(0.15, 0.40), 
           color: isBat
             ? Math.random() > 0.5 ? "#60a5fa" : "#818cf8"
@@ -59,12 +58,10 @@ function CricketBackground() {
       const bladeH = size * 1.6;
       const gripW = size * 0.18;
       
-      // BADI LINE WIDTH FOr SHARP OUTLINE
       ctx.strokeStyle = color;
       ctx.lineWidth = 1.8; 
       
       ctx.beginPath();
-      // Smooth rounding
       ctx.roundRect(-bladeW / 2, -bladeH * 0.1, bladeW, bladeH, [size * 0.08, size * 0.08, size * 0.15, size * 0.15]);
       ctx.stroke();
       
@@ -97,9 +94,10 @@ function CricketBackground() {
     }
 
     function draw() {
+      if (!canvas) return;
       const W = canvas.width, H = canvas.height;
       ctx.clearRect(0, 0, W, H);
-      const pad = 50; // Increased padding for safer edge transitions
+      const pad = 20;
 
       objects.forEach((o) => {
         o.x += o.vx;
@@ -126,13 +124,25 @@ function CricketBackground() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-70 pointer-events-none" />;
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full max-w-full opacity-70 pointer-events-none" />;
 }
 
 // --- MAIN HOME COMPONENT ---
 function Home() {
   const navigate = useNavigate();
   const [turfs, setTurfs] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check for screen size to disable animation on mobile
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    handleResize(); // Initial check
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     API.get("/turfs")
@@ -143,13 +153,13 @@ function Home() {
   const bestTurfs = turfs.slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white selection:bg-blue-500/30 overflow-hidden">
+    <div className="min-h-screen bg-[#020617] text-white selection:bg-blue-500/30 overflow-x-hidden relative">
       
-      {/* HERO SECTION WITH ANIMATED BACKGROUND */}
-      <section className="relative h-[95vh] flex flex-col justify-center items-center text-center px-4 md:px-6 overflow-hidden">
+      {/* HERO SECTION */}
+      <section className="relative h-[95vh] flex flex-col justify-center items-center max-w-full text-center px-4 md:px-6 overflow-hidden">
         
-        {/* Continuous Cricket Animation Background - UPDATED VISIBILITY */}
-        <CricketBackground />
+        {/* Only show animation if NOT on mobile */}
+        {!isMobile && <CricketBackground />}
 
         {/* Hero Content */}
         <motion.div
@@ -196,7 +206,6 @@ function Home() {
           <div className="h-0.5 flex-1 bg-gradient-to-r from-blue-500/20 to-transparent ml-6 hidden md:block" />
         </div>
 
-        {/* GRID: Show only 3 best turfs */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {bestTurfs.length > 0 ? (
             bestTurfs.map((turf, i) => (
@@ -244,7 +253,6 @@ function Home() {
         </div>
       </section>
 
-      {/* SECTIONS */}
       <div id="about-section" className="scroll-mt-20">
         <AboutUs/>
       </div>
@@ -253,7 +261,6 @@ function Home() {
         <Reviews />
       </div>
 
-      {/* FOOTER SPACE */}
       <footer className="py-12 text-center">
         <div className="mb-4">
            <span className="text-xl font-black tracking-tighter uppercase">Arena<span className="text-blue-500">X</span></span>
