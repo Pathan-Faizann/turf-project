@@ -17,7 +17,10 @@ connectDB();
 const app = express();
 
 
-app.use(cors({ origin: '*' }));
+app.use(cors({
+  origin: "https://turf-project-bice.vercel.app",
+  credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
 
