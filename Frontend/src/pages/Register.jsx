@@ -25,7 +25,7 @@ function Register() {
   };
 
   return (
-    <div className="h-screen w-full bg-[#020617] flex flex-col justify-center items-center p-4 overflow-hidden relative">
+    <div className="h-screen w-full md:pt-25 bg-[#020617] flex flex-col justify-center items-center p-4 overflow-hidden relative">
       
       {/* BACKGROUND AMBIENCE */}
       <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />

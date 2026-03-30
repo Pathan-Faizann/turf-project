@@ -34,7 +34,7 @@ function Login() {
   };
 
   return (
-    <div className="h-screen w-full bg-[#020617] flex flex-col justify-center items-center p-4 overflow-hidden relative">
+    <div className="h-screen w-full bg-[#020617] flex flex-col justify-center md:pt-25 items-center p-4 overflow-hidden relative">
       
       {/* AMBIENT BACKGROUND GLOWS */}
       <div className="absolute top-[-10%] left-[-5%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-blue-600/10 blur-[100px] md:blur-[130px] rounded-full pointer-events-none" />
