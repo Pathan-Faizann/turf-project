@@ -182,10 +182,10 @@ export const adminLogin = async (req, res) => {
 
     // Set HTTP-Only Cookie
     res.cookie("admin_token", token, {
-      httpOnly: true, // Cannot be accessed by JavaScript (XSS protection)
-      secure: process.env.NODE_ENV === "production", // true in production
-      sameSite: "strict", // CSRF protection
-      maxAge: 24 * 60 * 60 * 1000 // 1 day
+      httpOnly: true, 
+      secure: true, 
+      sameSite: "none", 
+      maxAge: 24 * 60 * 60 * 1000 
     });
 
     res.json({ message: "Admin authenticated securely", role: "admin" });
@@ -199,6 +199,8 @@ export const adminLogin = async (req, res) => {
 export const adminLogout = (req, res) => {
   res.cookie("admin_token", "", {
     httpOnly: true,
+    secure: true,
+    sameSite: "none",
     expires: new Date(0) // Expire immediately
   });
   res.json({ message: "Admin logged out successfully" });
