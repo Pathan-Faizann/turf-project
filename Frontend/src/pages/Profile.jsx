@@ -141,5 +141,4 @@ function Profile() {
     </div>
   );
 }
-
-export default Profil
+export default Profile;
