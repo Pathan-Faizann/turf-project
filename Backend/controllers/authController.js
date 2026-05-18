@@ -19,14 +19,13 @@ export const registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role
+      role,
     });
 
     res.status(201).json({
       message: "User registered successfully",
-      user
+      user,
     });
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -50,15 +49,14 @@ export const loginUser = async (req, res) => {
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+      { expiresIn: "7d" },
     );
 
     res.json({
       message: "Login successful",
       token,
-      user
+      user,
     });
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -84,17 +82,17 @@ export const forgotPassword = async (req, res) => {
 
     // Send email with OTP
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
+        pass: process.env.EMAIL_PASS,
+      },
     });
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
-      subject: 'Password Reset OTP - TurfBooker',
+      subject: "Password Reset OTP - TurfBooker",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #020617;">Password Reset Request</h2>
@@ -108,13 +106,12 @@ export const forgotPassword = async (req, res) => {
           <p>If you didn't request this, please ignore this email.</p>
           <p>Best regards,<br>TurfBooker Team</p>
         </div>
-      `
+      `,
     };
 
     await transporter.sendMail(mailOptions);
 
     res.json({ message: "OTP sent to your email" });
-
   } catch (error) {
     console.error("Forgot password error:", error);
     res.status(500).json({ message: "Failed to send OTP" });
@@ -151,7 +148,6 @@ export const resetPassword = async (req, res) => {
     await user.save();
 
     res.json({ message: "Password reset successful" });
-
   } catch (error) {
     console.error("Reset password error:", error);
     res.status(500).json({ message: error.message });
@@ -165,31 +161,32 @@ export const resetPassword = async (req, res) => {
 export const adminLogin = async (req, res) => {
   try {
     const { password } = req.body;
-    
+
     // Fallback to "saleha" if env var is missing
     const validPassword = process.env.ADMIN_PASSWORD || "saleha";
 
     if (password !== validPassword) {
-      return res.status(401).json({ message: "Invalid Admin Password. Access Denied." });
+      return res
+        .status(401)
+        .json({ message: "Invalid Admin Password. Access Denied." });
     }
 
     // Sign a specific admin token
     const token = jwt.sign(
       { id: "admin_user", role: "admin" },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "1d" },
     );
 
     // Set HTTP-Only Cookie
     res.cookie("admin_token", token, {
-      httpOnly: true, 
-      secure: true, 
-      sameSite: "none", 
-      maxAge: 24 * 60 * 60 * 1000 
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 24 * 60 * 60 * 1000,
     });
 
     res.json({ message: "Admin authenticated securely", role: "admin" });
-
   } catch (error) {
     console.error("Admin login error:", error);
     res.status(500).json({ message: "Server error during admin login" });
@@ -201,7 +198,7 @@ export const adminLogout = (req, res) => {
     httpOnly: true,
     secure: true,
     sameSite: "none",
-    expires: new Date(0) // Expire immediately
+    expires: new Date(0), // Expire immediately
   });
   res.json({ message: "Admin logged out successfully" });
 };

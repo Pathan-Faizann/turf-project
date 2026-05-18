@@ -13,10 +13,9 @@ export const getBookedSlots = async (req, res) => {
 
     const bookings = await Booking.find({ turf: turfId, date });
 
-    const bookedSlots = bookings.map(b => b.slot);
+    const bookedSlots = bookings.map((b) => b.slot);
 
     res.json(bookedSlots);
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -49,7 +48,6 @@ export const getOwnerBookings = async (req, res) => {
   }
 };
 
-
 // 🛑 Create Booking
 export const createBooking = async (req, res) => {
   try {
@@ -63,7 +61,7 @@ export const createBooking = async (req, res) => {
     const exists = await Booking.findOne({
       turf: turfId,
       date,
-      slot
+      slot,
     });
 
     if (exists) {
@@ -83,14 +81,13 @@ export const createBooking = async (req, res) => {
       owner: turf.owner, // 🔥 important for owner dashboard
       date,
       slot,
-      price: turf.pricePerSlot
+      price: turf.pricePerSlot,
     });
 
     res.status(201).json({
       message: "Booking successful 🔥",
-      booking
+      booking,
     });
-
   } catch (error) {
     console.error("Booking Error:", error);
     res.status(500).json({ message: error.message });
